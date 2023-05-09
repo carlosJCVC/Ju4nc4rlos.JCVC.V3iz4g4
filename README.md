@@ -36,7 +36,13 @@ $ npm run test:cov
 
 ## Task
 
-Realizar para la API el CRUD para la tabla estudiantes [students table here](https://github.com/carlosJCVC/student-library-backend/blob/main/db.png) 
+Realizar para la API el CRUD para la tabla estudiantes [students table here](https://github.com/carlosJCVC/student-library-backend/blob/main/db.png)
+
+Tareas a corregir
+* Revisar el endpoint nuevamente para el modelo de estudiantes y validar cada campo que sea necesario 
+* Evitar manejar cadenas sueltas o valores en duro ejemplo _La url de la cadena de conexion de mongo_
+* Para las variable de entorno [click aqui](https://www.npmjs.com/package/dotenv) condiguracion en Nest [click aqui](https://docs.nestjs.com/techniques/configuration#schema-validation)
+* Los esquemas(schemas) o entidades(entities) deben tener regals de negocio para los documentos o colecciones en mongodb [Click aqui](https://docs.nestjs.com/techniques/mongodb)
 
 ## CRUD
 
