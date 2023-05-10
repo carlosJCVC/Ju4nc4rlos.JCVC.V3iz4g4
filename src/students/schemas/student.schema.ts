@@ -1,12 +1,14 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type StudentDocument = Student & Document;
-
 @Schema()
-export class Student {
-  @Prop()
+export class Student extends Document{
+  @Prop({
+      unique: true,
+      index: true,
+  })
   first_name: string;
+
   @Prop()
   last_name: string;
   @Prop()
