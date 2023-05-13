@@ -1,7 +1,12 @@
 import { IsEmail, IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { Match } from "../decorators/match.decorator";
 import { StudentGender } from '../student.enum';
 
 export class CreateStudentDto {
+    pedrito: String;
+    CreateStudentDto() {
+        this.pedrito = "Pedro";
+    }
 
     @IsString()
     @IsNotEmpty()
@@ -33,5 +38,6 @@ export class CreateStudentDto {
 
     @IsString()
     @IsNotEmpty()
+    @Match('password')
     protected password_confirm: string;
 }
