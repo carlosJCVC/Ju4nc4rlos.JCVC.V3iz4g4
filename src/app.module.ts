@@ -4,12 +4,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
-    // TODO utilizar enviroments para los valores en duro
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: '.env', }),
     MongooseModule.forRoot(process.env.MONGODB_HOST),
-    StudentsModule,
+    StudentsModule
   ],
   controllers: [],
   providers: [],
 })
 export class AppModule {}
+
