@@ -5,13 +5,12 @@ import { ConfigModule } from '@nestjs/config';
 import { FacultyModule } from './faculty/faculty.module';
 @Module({
   imports: [
-    // TODO utilizar enviroments para los valores en duro
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: '.env', }),
     MongooseModule.forRoot(process.env.MONGODB_HOST),
-    StudentsModule,
-    FacultyModule,
+    StudentsModule
   ],
   controllers: [],
   providers: [],
 })
 export class AppModule {}
+

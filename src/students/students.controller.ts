@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id.pipe';
 
 @Controller('students')
 export class StudentsController {
@@ -17,7 +19,6 @@ export class StudentsController {
 
   @Post()
   create(@Body() createStudentDto: CreateStudentDto) {
-    
     return this.studentsService.create(createStudentDto);
   }
 
@@ -31,13 +32,14 @@ export class StudentsController {
     return this.studentsService.findOne(id);
   }
 
+  @Put(':id')
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  update(@Param('id', ParseMongoIdPipe) id: string, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(id, updateStudentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseMongoIdPipe) id: string) {
     return this.studentsService.remove(id);
   }
 }
