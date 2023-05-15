@@ -7,12 +7,15 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { ParseMongoIdPipe } from '../common/pipes/parse-mongo-id.pipe';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('students')
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
@@ -34,7 +37,10 @@ export class StudentsController {
 
   @Put(':id')
   @Patch(':id')
-  update(@Param('id', ParseMongoIdPipe) id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  update(
+    @Param('id', ParseMongoIdPipe) id: string,
+    @Body() updateStudentDto: UpdateStudentDto,
+  ) {
     return this.studentsService.update(id, updateStudentDto);
   }
 
