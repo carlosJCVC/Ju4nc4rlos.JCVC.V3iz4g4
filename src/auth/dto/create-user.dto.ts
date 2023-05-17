@@ -1,6 +1,7 @@
 import { Expose, Transform } from "class-transformer";
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 import { Match } from "src/students/decorators/match.decorator";
+import { UserGender } from '../interfaces/user-gender.enum';
 
 export class CreateUserDto {
     @IsString()
@@ -17,6 +18,9 @@ export class CreateUserDto {
     @IsNotEmpty()
     @IsEmail()
     protected email: string;
+
+    @IsEnum(UserGender)
+    protected gender: string;
 
     @IsString()
     @IsOptional()

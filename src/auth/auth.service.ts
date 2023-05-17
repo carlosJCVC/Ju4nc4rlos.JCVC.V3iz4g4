@@ -39,7 +39,7 @@ export class AuthService {
 
   async login(loginUserDto: LoginUserDto) {
     const {email, password} = loginUserDto;
-    const user = await this.userModel.findOne({email}).select({email: true, password: true});
+    const user = await this.userModel.findOne({email}).select({email: true, firstName: true, lastName: true, gender: true, password: true});
 
     if (!user) {
       throw new UnauthorizedException('Credentials are not valid (Email)');
@@ -50,8 +50,11 @@ export class AuthService {
     }
 
     return {
+      id: user.id,
       email: user.email,
-      password: user.password,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      gender: user.gender,
       token: this.getJwtToken({id: user.id})
     };
   }

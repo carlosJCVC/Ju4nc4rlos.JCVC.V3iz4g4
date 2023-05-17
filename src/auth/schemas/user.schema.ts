@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Exclude, Expose } from 'class-transformer';
+import { UserGender } from '../interfaces/user-gender.enum';
 
 @Schema({
     toJSON: {
@@ -22,6 +23,12 @@ export class User {
     unique: true
   })    
   email: string;
+
+  @Prop({ required:true, enum: UserGender})
+  gender: string;
+
+  @Prop({ type: String })
+  cell_phone: string;
 
   @Exclude()
   // @Transform(({ value }) => console.log('value', value))
