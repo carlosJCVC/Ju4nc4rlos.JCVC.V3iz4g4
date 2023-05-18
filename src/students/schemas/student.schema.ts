@@ -1,24 +1,19 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Exclude, Expose } from 'class-transformer';
 import { Document } from 'mongoose';
 import { type } from 'os';
 import { StudentGender } from '../student.enum';
 export type StudentDocument = Student & Document;
 @Schema({
-  // TODO review this url please about _id
-  // https://stackoverflow.com/questions/28566841/mongoose-query-remove-id-attribute-keep-virtual-attribute-id-in-results
   toJSON: {
     getters: true,
     virtuals: true,
     versionKey: false,
-    // transform: function(doc, ret) {
-    //   delete ret._id;
-    //   delete ret.__v;
-    // }
   },
   timestamps: true,
 })
-export class Student extends Document {
-  @Prop({ required: true })
+export class Student  {
+  @Prop({ required:true })
   first_name: string;
 
   @Prop({ required: true })
@@ -40,8 +35,14 @@ export class Student extends Document {
   @Prop({ type: String })
   avatar: string;
 
-  @Prop({ required: true, type: String, select: false })
+  @Exclude()
+  @Prop({ required:true, type: String, select: false })
   password: string;
+
+  @Expose()
+  get fullName(): string {
+    return `${this.first_name} ${this.last_name}`;
+  }
 }
 
 export const StudentSchema = SchemaFactory.createForClass(Student);

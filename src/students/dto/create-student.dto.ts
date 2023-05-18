@@ -3,18 +3,13 @@ import { Match } from "../decorators/match.decorator";
 import { StudentGender } from '../student.enum';
 
 export class CreateStudentDto {
-    pedrito: String;
-    CreateStudentDto() {
-        this.pedrito = "Pedro";
-    }
+    @IsString()
+    @IsNotEmpty()
+    protected firstName: string;
 
     @IsString()
     @IsNotEmpty()
-    protected first_name: string;
-
-    @IsString()
-    @IsNotEmpty()
-    protected last_name: string;
+    protected lastName: string;
 
     @IsString()
     @IsNotEmpty()
@@ -26,7 +21,7 @@ export class CreateStudentDto {
 
     @IsString()
     @IsOptional()
-    protected cell_phone: string;
+    protected cellPhone: string;
 
     // @IsString()
     @IsOptional()
@@ -39,5 +34,5 @@ export class CreateStudentDto {
     @IsString()
     @IsNotEmpty()
     @Match('password')
-    protected password_confirm: string;
+    protected passwordConfirm: string;
 }

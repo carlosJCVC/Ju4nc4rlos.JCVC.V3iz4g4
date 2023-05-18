@@ -1,47 +1,75 @@
-import { HttpCode, HttpException, Injectable } from '@nestjs/common';
-import { LoginAuthDto } from './dto/login-auth.dto';
-import { RegisterAuthDto } from './dto/register-auth.dto';
-import { Model } from 'mongoose';
-import { Student, StudentDocument } from 'src/students/schemas/student.schema';
+import { Injectable, BadRequestException, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { hash, compare } from 'bcrypt';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './schemas/user.schema';
+import { Model } from 'mongoose';
+
+import * as bcrypt from 'bcrypt';
+import { LoginUserDto } from './dto/login-user.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel(Student.name)
-    private readonly studentModel: Model<StudentDocument>,
-    private jwtService: JwtService,
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService
   ) {}
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  async register(studentObject: RegisterAuthDto) {
-    const { password } = studentObject;
-    const plainToHash = await hash(password, 10);
-    studentObject = { ...studentObject, password: plainToHash };
-    console.log(plainToHash);
-    return this.studentModel.create(studentObject);
+  async create(createUserDto: CreateUserDto): Promise<{}> {
+
+    const saltOrRounds = 10;
+    const { password } = createUserDto;
+    const hash = await bcrypt.hash(password, saltOrRounds);
+    createUserDto.password = hash;
+
+    try {
+      const user = await this.userModel.create(createUserDto);
+
+      return {
+        email: user.email,
+        password: user.password,
+        token: this.getJwtToken({id: user.id})
+      };
+    } catch (error) {
+      this.handleExceptions( error );
+    }
   }
 
-  async login(studenObjectLogin: LoginAuthDto) {
-    const { email, password } = studenObjectLogin;
-    const findStudent = await this.studentModel.findOne({ email });
-    console.log(findStudent);
-    if (!findStudent) throw new HttpException('USER_NOT_FOUND', 404);
+  async login(loginUserDto: LoginUserDto) {
+    const {email, password} = loginUserDto;
+    const user = await this.userModel.findOne({email}).select({email: true, firstName: true, lastName: true, gender: true, password: true});
 
-    /* const checkPassword = await compare(password, findStudent.password);
+    if (!user) {
+      throw new UnauthorizedException('Credentials are not valid (Email)');
+    }
 
-    if (!checkPassword) throw new HttpException('PASSWORD_INCORRECT', 403); */
+    if (!bcrypt.compareSync(password, user.password)) {
+      throw new UnauthorizedException('Credentials are not valid (Password)');
+    }
 
-    const payload = { id: findStudent._id, name: findStudent.first_name };
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      gender: user.gender,
+      token: this.getJwtToken({id: user.id})
+    };
+  }
+
+  private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
 
-    const data = {
-      student: findStudent,
-      token,
-    };
+    return token;
+  }
 
-    return data;
+  private handleExceptions( error: any ) {
+    if ( error.code === 11000 ) {
+      throw new BadRequestException(`Email already registered ${ JSON.stringify( error.keyValue ) }`);
+    }
+
+    throw new InternalServerErrorException(`Can't register User - Check server logs`);
   }
 }

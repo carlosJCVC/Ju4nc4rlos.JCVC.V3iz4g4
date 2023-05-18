@@ -1,27 +1,42 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginAuthDto } from './dto/login-auth.dto';
-import { RegisterAuthDto } from './dto/register-auth.dto';
+import { GetUser } from './decorators/get-user.decorator';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/login-user.dto';
+import { User } from './schemas/user.schema';
+import { ValidRoles } from './interfaces/valid-roles';
+import { Auth } from './decorators/auth.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  registerStudent(@Body() studentObject: RegisterAuthDto) {
-    return this.authService.register(studentObject);
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.create(createUserDto);
   }
 
   @Post('login')
-  loginStudent(@Body() studenObjectLogin: LoginAuthDto) {
-    return this.authService.login(studenObjectLogin);
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.authService.login(loginUserDto);
+  }
+
+  // @Get('user')
+  // @RoleProtected( ValidRoles.superUser, ValidRoles.admin )
+  // @UseGuards(AuthGuard(), UserRoleGuard)
+  // getUser(@GetUser() user: User) {
+  //   return {
+  //     status: true,
+  //     user
+  //   };
+  // }
+
+  @Get('user')
+  @Auth( ValidRoles.superUser )
+  getUserBetter(@GetUser() user: User) {
+    return {
+      status: true,
+      user
+    };
   }
 }
