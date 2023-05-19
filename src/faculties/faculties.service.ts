@@ -6,34 +6,34 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 @Injectable()
-export class FacultyService {
+export class FacultiesService {
   constructor(
     @InjectModel(Faculty.name)
-    private readonly facultyModel: Model<FacultyDocument>,
+    private readonly facultiesModel: Model<FacultyDocument>,
   ) {}
 
   async create(createFacultyDto: CreateFacultyDto): Promise<Faculty> {
-    return this.facultyModel.create(createFacultyDto);
+    return this.facultiesModel.create(createFacultyDto);
   }
 
   async findAll(): Promise<Faculty[]> {
-    return this.facultyModel.find().exec();
+    return this.facultiesModel.find().exec();
   }
 
   async findOne(id: string): Promise<Faculty> {
-    return this.facultyModel.findOne({ _id: id }).exec();
+    return this.facultiesModel.findOne({ _id: id }).exec();
   }
 
   async update(
     id: string,
     updateFacultyDto: UpdateFacultyDto,
   ): Promise<Faculty> {
-    return this.facultyModel.findOneAndUpdate({ _id: id }, updateFacultyDto, {
+    return this.facultiesModel.findOneAndUpdate({ _id: id }, updateFacultyDto, {
       new: true,
     });
   }
 
   async remove(id: string) {
-    return this.facultyModel.findOneAndRemove({ _id: id }).exec();
+    return this.facultiesModel.findOneAndRemove({ _id: id }).exec();
   }
 }
