@@ -4,6 +4,8 @@ import { UpdateCareerDto } from './dto/update-career.dto';
 import { Career, CareerDocument } from './schemas/career.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FilterCareersDto } from './dto/pagination-career.dto';
+import { skip, take } from 'rxjs';
 
 @Injectable()
 export class CareersService {
@@ -15,8 +17,14 @@ export class CareersService {
     return this.careerModel.create(createCareerDto);
   }
 
-  async findAll(): Promise<Career[]> {
-    return this.careerModel.find().populate('facultad').exec();
+  async findAll(params: FilterCareersDto): Promise<Career[]> {
+    const { limit, offset } = params;
+    return this.careerModel
+      .find()
+      .populate('facultad')
+      .skip(offset)
+      .limit(limit)
+      .exec();
   }
 
   async findOne(id: string): Promise<Career> {

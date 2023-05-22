@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CareersService } from './careers.service';
 import { CreateCareerDto } from './dto/create-career.dto';
 import { UpdateCareerDto } from './dto/update-career.dto';
+import { FilterCareersDto } from './dto/pagination-career.dto';
 
 @Controller('careers')
 export class CareersController {
@@ -21,8 +23,8 @@ export class CareersController {
   }
 
   @Get()
-  findAll() {
-    return this.careersService.findAll();
+  findAll(@Query() pagination: FilterCareersDto) {
+    return this.careersService.findAll(pagination);
   }
 
   @Get(':id')
