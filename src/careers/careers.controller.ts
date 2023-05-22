@@ -8,12 +8,14 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CareersService } from './careers.service';
 import { CreateCareerDto } from './dto/create-career.dto';
 import { UpdateCareerDto } from './dto/update-career.dto';
 import { FilterCareersDto } from './dto/pagination-career.dto';
 
 @Controller('careers')
+@ApiTags('careers')
 export class CareersController {
   constructor(private readonly careersService: CareersService) {}
 
