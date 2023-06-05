@@ -44,12 +44,4 @@ export class CreateUserDto {
     @IsNotEmpty()
     @Match('password')
     protected passwordConfirm: string;
-
-    set setPassword(password: string) {
-        this.password = password;
-    }
-
-    get getPassword(): string {
-        return this.password;
-    }
 }

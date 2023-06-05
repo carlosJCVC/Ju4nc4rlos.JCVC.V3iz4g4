@@ -13,8 +13,10 @@ export type TeacherDocument = Teacher & Document;
 export class Teacher extends Document {
   @Prop({ required: true })
   nameDocente: string;
+
   @Prop()
   materia: string;
+
   @Prop()
   carrera: string;
 }

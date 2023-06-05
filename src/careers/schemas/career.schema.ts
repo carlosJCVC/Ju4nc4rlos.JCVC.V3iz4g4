@@ -14,18 +14,12 @@ export type CareerDocument = Career & Document;
 export class Career extends Document {
   @Prop({ required: true })
   name: string;
+
   @Prop()
   slugName: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Faculty.name })
   facultad: Faculty;
-  /* @Prop()
-  faculty: [
-    {
-      type: mongoose.Schema.Types.ObjectId;
-      ref: 'Faculties';
-      autopopulate: true;
-    },
-  ]; */
 }
 
 export const CareerSchema = SchemaFactory.createForClass(Career);

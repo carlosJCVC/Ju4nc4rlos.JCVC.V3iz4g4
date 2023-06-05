@@ -7,12 +7,14 @@ export class CreateCareerDto {
   @IsString()
   @IsNotEmpty()
   protected name: string;
+
   @ApiProperty({
     example: 'Sistemas_123',
   })
   @IsString()
   @IsNotEmpty()
   protected slugName: string;
+
   @ApiProperty({
     example: '6461a1a22457ed4bc84e28f2',
   })
