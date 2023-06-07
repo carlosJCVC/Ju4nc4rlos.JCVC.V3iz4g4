@@ -10,5 +10,6 @@ import { Faculty, FacultySchema } from './schemas/faculty.schema';
   ],
   controllers: [FacultiesController],
   providers: [FacultiesService],
+  exports: [FacultiesService],
 })
 export class FacultiesModule {}
