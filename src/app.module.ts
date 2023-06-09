@@ -7,6 +7,7 @@ import { CareersModule } from './careers/careers.module';
 import { FacultiesModule } from './faculties/faculties.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { TeachersModule } from './teachers/teachers.module';
+import { DriveModule } from './drive/drive.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -16,7 +17,8 @@ import { TeachersModule } from './teachers/teachers.module';
     CareersModule,
     FacultiesModule,
     SubjectsModule,
-    TeachersModule
+    TeachersModule,
+    DriveModule
   ],
   controllers: [],
   providers: [],

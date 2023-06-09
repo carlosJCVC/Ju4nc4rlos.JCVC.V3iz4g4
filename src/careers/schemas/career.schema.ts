@@ -15,7 +15,8 @@ export class Career extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop()
+  // TODO required true does not working with pre save here
+  @Prop({ type: String })
   slugName: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Faculty.name })

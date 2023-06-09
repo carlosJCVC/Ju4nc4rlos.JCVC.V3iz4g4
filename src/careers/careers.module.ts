@@ -6,7 +6,20 @@ import { Career, CareerSchema } from './schemas/career.schema';
 import { FacultiesModule } from 'src/faculties/faculties.module';
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Career.name, schema: CareerSchema }]),
+    MongooseModule.forFeatureAsync([{
+      name: Career.name,
+      useFactory(...args) {
+        const schema = CareerSchema;
+        schema.pre('save', function() {
+          const uniqueid = Date.now();
+          this.slugName = this.name.toLowerCase().split(" ").join("-") + "-" + uniqueid;
+        });
+
+        return schema;
+      },
+      // schema: CareerSchema
+    }]),
+
     FacultiesModule,
   ],
   controllers: [CareersController],

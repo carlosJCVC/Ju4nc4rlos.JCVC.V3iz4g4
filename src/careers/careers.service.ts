@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateCareerDto } from './dto/create-career.dto';
 import { UpdateCareerDto } from './dto/update-career.dto';
 import { Career, CareerDocument } from './schemas/career.schema';
@@ -6,20 +6,33 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { FilterCareersDto } from './dto/pagination-career.dto';
 import { FacultiesService } from './../faculties/faculties.service';
+import { FacultyNotFoundException } from './exceptions/faculty-not-found.exception';
 @Injectable()
 export class CareersService {
   FacultiesService: any;
+
   constructor(
     @InjectModel(Career.name)
     private readonly careerModel: Model<CareerDocument>,
     private facultiesService: FacultiesService,
   ) {}
+
   async create(createCareerDto: CreateCareerDto): Promise<Career> {
-    const facul = await this.facultiesService.findOne(createCareerDto.facultad);
-    if (facul == null) {
-      throw new BadRequestException('La facultad no existe');
-    } 
-    return this.careerModel.create(createCareerDto);
+    try {
+      const faculty = await this.facultiesService.findOne(createCareerDto.facultad);
+
+      if (faculty == null) {
+        throw new HttpException('La facultad ingresada no existe.', HttpStatus.BAD_REQUEST);
+      }
+
+      return this.careerModel.create(createCareerDto);
+    } catch (error) {
+      if (error.status == 400) {
+        throw new FacultyNotFoundException();
+      }
+
+      throw new InternalServerErrorException();
+    }
   }
 
   async findAll(params: FilterCareersDto): Promise<Career[]> {

@@ -3,25 +3,17 @@ import { IsNotEmpty, IsString, IsMongoId } from 'class-validator';
 export class CreateCareerDto {
   @ApiProperty({
     example: 'Sistemas',
-    description: 'ingrese el nombre de una carrera en cadenas',
+    description: 'Nombre de la carrera es requrido.',
   })
   @IsString()
-  @IsNotEmpty({ message: 'Ingrese un nombre' })
+  @IsNotEmpty({ message: 'Nombre de la carrera es requerido.' })
   protected name: string;
 
   @ApiProperty({
-    example: 'Sistemas_123',
-    description: 'El slug se crea por defecto',
-  })
-  @IsString()
-  @IsNotEmpty()
-  protected slugName: string;
-
-  @ApiProperty({
     example: '6461a1a22457ed4bc84e28f2',
-    description: 'se tiene que ingresar un ID de una facultad registrada',
+    description: 'Para registrar un carrera es requerida una facultad existente.',
   })
-  @IsMongoId({ message: 'El formato del ID ingresado no es valido' })
+  @IsMongoId({ message: 'La facultad ingresada no existe.' })
   @IsNotEmpty()
   readonly facultad: string;
 }
