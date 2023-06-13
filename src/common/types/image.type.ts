@@ -1,5 +1,7 @@
 export type Image = {
-    fileName: string,
+    originalName: string,
     mineType: string,
-    path: string
+    fileName: string,
+    path: string,
+    size: number
 };

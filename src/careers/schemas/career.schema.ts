@@ -1,13 +1,9 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { now, Document, Types } from 'mongoose';
 import { Faculty } from 'src/faculties/schemas/faculty.schema';
-export type CareerDocument = Career & Document;
+import { Image } from 'src/common/types/image.type';
 
-type CareerImage = {
-  fileName: string,
-  mineType: string,
-  path: string
-};
+export type CareerDocument = Career & Document;
 
 @Schema({
   toJSON: {
@@ -26,7 +22,7 @@ export class Career extends Document {
   slugName: string;
 
   @Prop({ type: Object, required: true })
-  image: CareerImage;
+  image: Image;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Faculty.name })
   facultad: Faculty;

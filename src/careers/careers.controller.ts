@@ -20,7 +20,7 @@ import { UpdateCareerDto } from './dto/update-career.dto';
 import { FilterCareersDto } from './dto/pagination-career.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from './pipes/file-validation.pipe';
-import { Image } from '../common/types/image.type';
+import { Image } from 'src/common/types/image.type';
 
 @Controller('careers')
 @ApiTags('careers')
@@ -36,7 +36,7 @@ export class CareersController {
         validators: [
           // TODO el formato de las imagenes que se envian aqui no estan siendo utilizadas en el pipe
           // new FileValidationPipe({ fileType: ['image/jpeg']}),
-          new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg|jpeg)' }),
           new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),
         ]
       })
@@ -44,9 +44,11 @@ export class CareersController {
     file: Express.Multer.File) {
 
     const image: Image = {
+      originalName: file.originalname,
       fileName: file.filename,
       mineType: file.mimetype,
-      path: file.path
+      path: file.path,
+      size: file.size
     };
 
     createCareerDto.image = image;

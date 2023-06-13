@@ -3,7 +3,7 @@ import { MulterOptionsFactory } from "@nestjs/platform-express";
 import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
 import { ConfigService } from '@nestjs/config';
 import { diskStorage } from "multer";
-import { extname } from "path";
+import { v4 as uuid } from 'uuid'
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {
@@ -17,10 +17,13 @@ export class MulterConfigService implements MulterOptionsFactory {
             storage: diskStorage({
                 destination: `${this.configService.get<string>('MULTER_DEST')}/${this.PATH}`,
                 filename: (req, file, cb) => {
-                  const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
-                  const extension = extname(file.originalname);
+                  const fileParts = file.originalname.split('.');
+                  const fileExtension = fileParts[ fileParts.length - 1 ]
+                  const fileExtensionMipetype = file.mimetype.split('/')[1];    
+                  const extension = (fileExtension) ? fileExtension : fileExtensionMipetype;
+                  const fileName = `${ uuid() }.${ extension }`;
 
-                  cb(null, `${randomName}${extension}`)
+                  cb(null, fileName)
                 }
             })
         };
