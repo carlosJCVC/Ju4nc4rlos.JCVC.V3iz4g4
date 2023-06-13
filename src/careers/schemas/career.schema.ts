@@ -3,6 +3,12 @@ import mongoose, { now, Document, Types } from 'mongoose';
 import { Faculty } from 'src/faculties/schemas/faculty.schema';
 export type CareerDocument = Career & Document;
 
+type CareerImage = {
+  fileName: string,
+  mineType: string,
+  path: string
+};
+
 @Schema({
   toJSON: {
     getters: true,
@@ -18,6 +24,9 @@ export class Career extends Document {
   // TODO required true does not working with pre save here
   @Prop({ type: String })
   slugName: string;
+
+  @Prop({ type: Object, required: true })
+  image: CareerImage;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Faculty.name })
   facultad: Faculty;

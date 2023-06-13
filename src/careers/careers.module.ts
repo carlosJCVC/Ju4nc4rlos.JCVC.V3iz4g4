@@ -4,6 +4,9 @@ import { CareersController } from './careers.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Career, CareerSchema } from './schemas/career.schema';
 import { FacultiesModule } from 'src/faculties/faculties.module';
+import { MulterModule } from '@nestjs/platform-express';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MulterConfigService } from './config/multer-config.service';
 @Module({
   imports: [
     MongooseModule.forFeatureAsync([{
@@ -19,6 +22,11 @@ import { FacultiesModule } from 'src/faculties/faculties.module';
       },
       // schema: CareerSchema
     }]),
+
+    MulterModule.registerAsync({
+      imports: [ConfigModule],
+      useClass: MulterConfigService,
+    }),
 
     FacultiesModule,
   ],
