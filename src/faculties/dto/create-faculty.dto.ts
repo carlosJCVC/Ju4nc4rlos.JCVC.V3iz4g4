@@ -1,9 +1,10 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { Image } from 'src/common/types/types';
+
 export class CreateFacultyDto {
   @IsString()
   @IsNotEmpty()
   protected name: string;
-  @IsString()
-  @IsNotEmpty()
-  protected slugName: string;
+
+  public image: Image;
 }
