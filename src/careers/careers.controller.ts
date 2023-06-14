@@ -12,6 +12,7 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  RequestTimeoutException,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CareersService } from './careers.service';
@@ -20,9 +21,11 @@ import { UpdateCareerDto } from './dto/update-career.dto';
 import { FilterCareersDto } from './dto/pagination-career.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from './pipes/file-validation.pipe';
-import { Image } from 'src/common/types/image.type';
+import { Image } from 'src/common/types/types';
+import { TransformInterceptor } from 'src/common/interceptors/interceptors';
 
 @Controller('careers')
+@UseInterceptors(TransformInterceptor)
 @ApiTags('careers')
 export class CareersController {
   constructor(private readonly careersService: CareersService) {}
@@ -34,7 +37,6 @@ export class CareersController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          // TODO el formato de las imagenes que se envian aqui no estan siendo utilizadas en el pipe
           // new FileValidationPipe({ fileType: ['image/jpeg']}),
           new FileTypeValidator({ fileType: '.(png|jpeg|jpg|jpeg)' }),
           new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 }),

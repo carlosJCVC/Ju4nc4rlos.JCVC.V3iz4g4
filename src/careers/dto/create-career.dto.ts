@@ -1,11 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsMongoId } from 'class-validator';
+import { Image } from 'src/common/types/types';
 
-type CareerImage = {
-  fileName: string,
-  mineType: string,
-  path: string
-};
 export class CreateCareerDto {
   @ApiProperty({ example: 'Sistemas', description: 'Nombre de la carrera es requrido.' })
   @IsString()
@@ -17,5 +13,5 @@ export class CreateCareerDto {
   @IsNotEmpty()
   readonly facultad: string;
 
-  public image: CareerImage;
+  public image: Image;
 }
