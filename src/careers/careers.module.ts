@@ -7,6 +7,7 @@ import { FacultiesModule } from 'src/faculties/faculties.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MulterConfigService } from './config/multer-config.service';
+import { PassportModule } from '@nestjs/passport';
 @Module({
   imports: [
     MongooseModule.forFeatureAsync([{
@@ -22,7 +23,7 @@ import { MulterConfigService } from './config/multer-config.service';
       },
       // schema: CareerSchema
     }]),
-
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     MulterModule.registerAsync({
       imports: [ConfigModule],
       useClass: MulterConfigService,

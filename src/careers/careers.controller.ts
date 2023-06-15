@@ -23,6 +23,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from './pipes/file-validation.pipe';
 import { Image } from 'src/common/types/types';
 import { TransformInterceptor } from 'src/common/interceptors/interceptors';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ValidRoles } from 'src/auth/interfaces/valid-roles';
+
 
 @Controller('careers')
 @UseInterceptors(TransformInterceptor)
@@ -32,6 +35,7 @@ export class CareersController {
 
   @UseInterceptors(FileInterceptor('image'))
   @Post()
+  @Auth(ValidRoles.admin)
   create(
     @Body() createCareerDto: CreateCareerDto,
     @UploadedFile(
@@ -59,21 +63,25 @@ export class CareersController {
   }
 
   @Get()
+  @Auth(ValidRoles.student)
   findAll(@Query() pagination: FilterCareersDto) {
     return this.careersService.findAll(pagination);
   }
 
   @Get(':id')
+  @Auth(ValidRoles.student)
   findOne(@Param('id') id: string) {
     return this.careersService.findOne(id);
   }
 
   @Patch(':id')
+  @Auth(ValidRoles.admin)
   update(@Param('id') id: string, @Body() updateCareerDto: UpdateCareerDto) {
     return this.careersService.update(id, updateCareerDto);
   }
 
   @Delete(':id')
+  @Auth(ValidRoles.admin)
   remove(@Param('id') id: string) {
     return this.careersService.remove(id);
   }
