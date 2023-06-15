@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { now, Document } from 'mongoose';
+import { Image } from 'src/common/types/types';
 export type FacultyDocument = Faculty & Document;
 
 @Schema({
@@ -13,7 +14,11 @@ export type FacultyDocument = Faculty & Document;
 export class Faculty extends Document {
   @Prop({ required: true })
   name: string;
-  @Prop()
+
+  @Prop({ type: String })
   slugName: string;
+
+  @Prop({ type: Object, required: true })
+  image: Image;
 }
 export const FacultySchema = SchemaFactory.createForClass(Faculty);

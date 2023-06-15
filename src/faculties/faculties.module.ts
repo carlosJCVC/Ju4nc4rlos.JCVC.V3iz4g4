@@ -2,11 +2,19 @@ import { Module } from '@nestjs/common';
 import { FacultiesService } from './faculties.service';
 import { FacultiesController } from './faculties.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Faculty, FacultySchema } from './schemas/faculty.schema';
+import { FeatureConfig } from './config/feature.config';
+import { MulterModule } from '@nestjs/platform-express';
+import { ConfigModule } from '@nestjs/config';
+import { MulterConfigService } from './config/multer.config.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Faculty.name, schema: FacultySchema }]),
+    MongooseModule.forFeatureAsync(FeatureConfig.mongooseOptions()),
+
+    MulterModule.registerAsync({
+      imports: [ConfigModule],
+      useClass: MulterConfigService,
+    }),
   ],
   controllers: [FacultiesController],
   providers: [FacultiesService],
