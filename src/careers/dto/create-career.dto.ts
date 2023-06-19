@@ -14,4 +14,12 @@ export class CreateCareerDto {
   readonly facultad: string;
 
   public image: Image;
+
+  @IsString()
+  @IsNotEmpty()
+  protected code: string;
+
+  @IsString()
+  @IsNotEmpty()
+  protected type: string;
 }

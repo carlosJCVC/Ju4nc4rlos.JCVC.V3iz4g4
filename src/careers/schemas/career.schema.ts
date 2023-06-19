@@ -26,6 +26,12 @@ export class Career extends Document {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Faculty.name })
   facultad: Faculty;
+
+  @Prop({ type: String })
+  code: string;
+
+  @Prop({ type: String })
+  type: string;
 }
 
 export const CareerSchema = SchemaFactory.createForClass(Career);
