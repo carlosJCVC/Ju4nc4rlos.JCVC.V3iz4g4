@@ -6,6 +6,7 @@ import { FeatureConfig } from './config/feature.config';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule } from '@nestjs/config';
 import { MulterConfigService } from './config/multer.config.service';
+import { Career } from '../careers/schemas/career.schema';
 
 @Module({
   imports: [

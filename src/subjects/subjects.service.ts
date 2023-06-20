@@ -11,8 +11,13 @@ export class SubjectsService {
     @InjectModel(Subject.name)
     private readonly subjectModel: Model<SubjectDocument>,
   ) {}
+
   async create(createSubjectDto: CreateSubjectDto): Promise<Subject> {
     return this.subjectModel.create(createSubjectDto);
+  }
+
+  async createFromSeeder(data): Promise<Subject> {
+    return this.subjectModel.create(data);
   }
 
   findAll() {
@@ -21,6 +26,10 @@ export class SubjectsService {
 
   findOne(id: string) {
     return this.subjectModel.findOne({ _id: id }).exec();
+  }
+
+  findOneByCode(code: string) {
+    return this.subjectModel.findOne({ code: code }).exec();
   }
 
   update(id: string, updateSubjectDto: UpdateSubjectDto): Promise<Subject> {

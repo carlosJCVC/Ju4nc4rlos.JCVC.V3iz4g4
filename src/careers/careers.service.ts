@@ -19,7 +19,7 @@ export class CareersService {
 
   async create(createCareerDto: CreateCareerDto): Promise<Career> {
     try {
-      const faculty = await this.facultiesService.findOne(createCareerDto.facultad);
+      const faculty = await this.facultiesService.findOne(createCareerDto.getFacultyId);
 
       if (faculty == null) {
         throw new HttpException('La facultad ingresada no existe.', HttpStatus.BAD_REQUEST);
@@ -35,11 +35,29 @@ export class CareersService {
     }
   }
 
-  async findAll(params: FilterCareersDto): Promise<Career[]> {
+  async createFromSeeder(data): Promise<Career> {
+    try {
+      const faculty = await this.facultiesService.findOne(data.faculty);
+
+      if (faculty == null) {
+        throw new HttpException('La facultad ingresada no existe.', HttpStatus.BAD_REQUEST);
+      }
+
+      return this.careerModel.create(data);
+    } catch (error) {
+      if (error.status == 400) {
+        throw new FacultyNotFoundException();
+      }
+
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async findAll(params: FilterCareersDto = {}): Promise<Career[]> {
     const { limit, offset } = params;
     return this.careerModel
       .find()
-      .populate('facultad')
+      .populate('faculty')
       .skip(offset)
       .limit(limit)
       .exec();
@@ -47,6 +65,10 @@ export class CareersService {
 
   async findOne(id: string): Promise<Career> {
     return this.careerModel.findOne({ _id: id }).exec();
+  }
+
+  async findOneByCode(code: string): Promise<Career> {
+    return this.careerModel.findOne({ code: code }).exec();
   }
 
   async update(id: string, updateCareerDto: UpdateCareerDto): Promise<Career> {

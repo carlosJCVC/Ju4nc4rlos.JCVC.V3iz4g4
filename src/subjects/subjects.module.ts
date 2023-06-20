@@ -10,5 +10,6 @@ import { Subject, SubjectSchema } from './schemas/subject.schema';
   ],
   controllers: [SubjectsController],
   providers: [SubjectsService],
+  exports: [SubjectsService]
 })
 export class SubjectsModule {}

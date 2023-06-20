@@ -18,7 +18,7 @@ export class Faculty extends Document {
   @Prop({ type: String })
   slugName: string;
 
-  @Prop({ type: Object, required: true })
+  @Prop({ type: Object })
   image: Image;
 }
 export const FacultySchema = SchemaFactory.createForClass(Faculty);

@@ -1,4 +1,4 @@
 export enum SubjectType {
-  Regular = 'Regular',
-  Elective = 'Electiva',
+  Regular = 'REGULAR',
+  Elective = 'TALLER DE TITULACION',
 }

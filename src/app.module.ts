@@ -12,6 +12,7 @@ import { TeachersModule } from './teachers/teachers.module';
 import { join } from 'path';
 import { FilesModule } from './files/files.module';
 import { LevelsModule } from './levels/levels.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { LevelsModule } from './levels/levels.module';
     TeachersModule,
     FilesModule,
     /* DriveModule, */
-    LevelsModule
+    LevelsModule,
+    SeedModule
   ],
   controllers: [],
   providers: [],

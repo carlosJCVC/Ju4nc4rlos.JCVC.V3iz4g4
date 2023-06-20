@@ -16,12 +16,20 @@ export class FacultiesService {
     return this.facultiesModel.create(createFacultyDto);
   }
 
+  async createFromSeeder(data): Promise<Faculty> {
+    return this.facultiesModel.create(data);
+  }
+
   async findAll(): Promise<Faculty[]> {
     return this.facultiesModel.find().exec();
   }
 
   async findOne(id: string): Promise<Faculty> {
     return this.facultiesModel.findOne({ _id: id }).exec();
+  }
+ 
+  async findOneByName(name: string): Promise<Faculty> {
+    return this.facultiesModel.findOne({ name: name }).exec();
   }
 
   async update(

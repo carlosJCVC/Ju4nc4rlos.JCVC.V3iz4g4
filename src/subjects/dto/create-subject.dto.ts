@@ -5,15 +5,10 @@ export class CreateSubjectDto {
   @IsString()
   @IsNotEmpty()
   protected code: string;
+
   @IsString()
   @IsNotEmpty()
   protected name: string;
-  @IsString()
-  @IsNotEmpty()
-  protected level: string;
-
-  @IsObject()
-  public schedule: Schedule;
 
   @IsEnum(SubjectType)
   protected type: string;

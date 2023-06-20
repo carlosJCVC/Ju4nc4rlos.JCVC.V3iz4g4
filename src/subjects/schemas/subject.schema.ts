@@ -13,20 +13,16 @@ export type SubjectDocument = Subject & Document;
   timestamps: true,
 })
 export class Subject extends Document {
-  @Prop()
+  @Prop({ required: true })
   code: string;
 
   @Prop({ required: true })
   name: string;
 
-  @Prop()
-  level: string;
-
-  @Prop({ type: Object })
-  schedule: Schedule;
-
   @Prop({ required: true, enum: SubjectType })
   type: string;
 
+  @Prop({ required: true, default: false })
+  isElective: boolean;
 }
 export const SubjectSchema = SchemaFactory.createForClass(Subject);
