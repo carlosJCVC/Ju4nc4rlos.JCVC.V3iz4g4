@@ -13,6 +13,7 @@ import { join } from 'path';
 import { FilesModule } from './files/files.module';
 import { LevelsModule } from './levels/levels.module';
 import { SeedModule } from './seed/seed.module';
+import { SchedulesModule } from './schedules/schedules.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { SeedModule } from './seed/seed.module';
     FilesModule,
     /* DriveModule, */
     LevelsModule,
-    SeedModule
+    SeedModule,
+    SchedulesModule
   ],
   controllers: [],
   providers: [],
