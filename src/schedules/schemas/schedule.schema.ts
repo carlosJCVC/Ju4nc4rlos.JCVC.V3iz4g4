@@ -26,8 +26,14 @@ export class Schedule {
   @Type(() => Teacher)
   teacher: Teacher;
   @Prop({ type: String })
-  horaInicio: string;
+  startTime: string;
   @Prop({ type: String })
-  horaFinal: string;
+  endTime: string;
+  @Prop({ type: String })
+  classroom: string;
+  @Prop({ type: String })
+  group: string;
+  @Prop({ type: String })
+  day: string;
 }
 export const ScheduleSchema = SchemaFactory.createForClass(Schedule);

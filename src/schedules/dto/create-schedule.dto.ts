@@ -15,10 +15,19 @@ export class CreateScheduleDto {
 
   @IsString()
   @IsNotEmpty({ message: 'Este campo no puede estar vacio' })
-  protected horaInicio: string;
+  protected startTime: string;
   @IsString()
   @IsNotEmpty({ message: 'Este campo no puede estar vacio' })
-  protected horaFinal: string;
+  protected endTime: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Este campo no puede estar vacio' })
+  protected classroom: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Este campo no puede estar vacio' })
+  protected group: string;
+  @IsString()
+  @IsNotEmpty({ message: 'Este campo no puede estar vacio' })
+  protected day: string;
 
   public get getCarrerId() {
     return this.career;
